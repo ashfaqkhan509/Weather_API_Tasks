@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 def fetch_weather_data(lat, lon, start, end):
     """
-    Fetch weather data from api within spcefied
+    - Fetch weather data from api within spcefied
     date range and for specific latitude and logitude
     """
     url = (
@@ -20,7 +20,7 @@ def fetch_weather_data(lat, lon, start, end):
 
 def write_csv(data, filename="weather_output.csv"):
     """
-    we store the data that are fetch from api
+    we store the data that are fetch from api 
     """
     with open(filename, mode='w', newline='') as f:
         writer = csv.writer(f)
@@ -70,7 +70,7 @@ def get_min(values, dates):
     return min_val, dates[index]
 
 
-def plot_graph(dates, values, title, ylabel, show=True):
+def plot_graph(dates, values, title, ylabel):
     """
     - Plot the graph between date range and temprature,
       wind speed, or soil temperature
