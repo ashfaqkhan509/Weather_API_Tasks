@@ -1,5 +1,6 @@
 import argparse
 
+
 class ArgParser:
     def __init__(self):
         self.parser = argparse.ArgumentParser(description="Weather Data Analysis using Open-Meteo API")
@@ -20,3 +21,4 @@ class ArgParser:
 
     def parse(self):
         return self.parser.parse_args()
+    

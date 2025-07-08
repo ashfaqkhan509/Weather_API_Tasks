@@ -1,6 +1,7 @@
 from arg_parser import ArgParser
 from weather_task import fetch_weather_data, get_avg, get_max, get_min, write_csv, plot_graph
 
+
 def main():
     args = ArgParser().parse()
 
@@ -72,5 +73,7 @@ def main():
         write_csv(daily)
         print("CSV exported as 'weather_output.csv'")
 
+
 if __name__ == "__main__":
     main()
+
