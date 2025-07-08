@@ -1,5 +1,11 @@
 from arg_parser import ArgParser
-from weather_task import fetch_weather_data, get_avg, get_max, get_min, write_csv, plot_graph
+from weather_task import (
+    fetch_weather_data,
+    get_avg, get_max,
+    get_min,
+    write_csv,
+    plot_graph
+)
 
 
 def main():
