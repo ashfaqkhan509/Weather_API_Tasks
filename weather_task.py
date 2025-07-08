@@ -1,8 +1,6 @@
 import requests
 import csv
-from datetime import datetime
 import matplotlib.pyplot as plt
-
 
 
 def fetch_weather_data(lat, lon, start, end):
@@ -11,11 +9,9 @@ def fetch_weather_data(lat, lon, start, end):
         f"?latitude={lat}&longitude={lon}"
         f"&hourly=temperature_2m,wind_speed_10m,soil_temperature_0cm"
         f"&start_date={start}&end_date={end}"
-        
     )
     response = requests.get(url)
     return response.json()
-
 
 
 def write_csv(data, filename="weather_output.csv"):
@@ -34,7 +30,6 @@ def write_csv(data, filename="weather_output.csv"):
                 data["wind_speed_10m"][i],
                 data["soil_temperature_0cm"][i]
             ])
-
 
 
 def get_avg(values):
@@ -65,4 +60,3 @@ def plot_graph(dates, values, title, ylabel):
     plt.grid(True)
     plt.tight_layout()
     plt.show()
-
