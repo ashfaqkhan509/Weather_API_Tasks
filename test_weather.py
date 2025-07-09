@@ -1,5 +1,13 @@
 import unittest
-from weather_task import get_avg, get_max, get_min
+from weather_task import (
+    get_avg,
+    get_max,
+    get_min,
+    write_csv,
+    plot_graph,
+    fetch_weather_data
+)
+import tempfile, os, csv
 
 
 class TestWeatherTasks(unittest.TestCase):
@@ -18,6 +26,25 @@ class TestWeatherTasks(unittest.TestCase):
         'wind_speed': [12.1, 12.5, 13.6, 15.9, 15.5, 12.4, 14.7, 13.4],
         'soil_tempraure': [17.9, 17.8, 17.5, 16.9, 16.6, 16.3, 16.1, 16.5]
     }
+
+    def test_fetch_data_success(self):
+        """
+        Test that fetch_weather_data returns valid JSON with expected keys
+        """
+        data = fetch_weather_data(52.52, 13.41, "2025-07-08", "2025-07-10")
+        self.assertIsInstance(data, dict)
+        self.assertIn("hourly", data)
+        self.assertIn("time", data["hourly"])
+        self.assertIn("temperature_2m", data["hourly"])
+
+
+    def test_fetch_data_failure(self):
+        """
+        Test to ensure API fails gracefully with invalid parameters.
+        Since fetch_weather_data returns JSON, check for expected error structure.
+        """
+        data = fetch_weather_data(999, 999, "2025-99-99", "2025-99-99")
+        self.assertIsInstance(data, dict)
 
     def test_get_avg_temp(self):
         """
@@ -140,6 +167,96 @@ class TestWeatherTasks(unittest.TestCase):
             get_min(self.data['soil_tempraure'], self.data['time']),
             (13.1, '2025-07-10T01:00')
         )
+
+    def test_get_avg_empty(self):
+        """Test get_avg with empty list"""
+        self.assertIsNone(get_avg([]))
+
+    def test_get_avg_none_values(self):
+        """Test get_avg with None values in list"""
+        self.assertEqual(
+            get_avg([None, 10, None, 20]),
+            15
+        )
+
+    def test_get_max_single_value(self):
+        """Test get_max with a single element list"""
+        self.assertEqual(
+            get_max([42], ['2025-07-08T01:00']),
+            (42, '2025-07-08T01:00')
+        )
+
+    def test_get_min_single_value(self):
+        """Test get_min with a single element list"""
+        self.assertEqual(
+            get_min([42], ['2025-07-08T01:00']),
+            (42, '2025-07-08T01:00')
+        )
+
+    def test_get_max_with_duplicates(self):
+        """Test get_max when multiple values are the same maximum"""
+        values = [10, 20, 20, 5]
+        dates = ['t1', 't2', 't3', 't4']
+        self.assertEqual(
+            get_max(values, dates),
+            (20, 't2')
+        ) 
+
+    def test_get_min_with_duplicates(self):
+        """Test get_min when multiple values are the same minimum"""
+        values = [10, 5, 20, 5]
+        dates = ['t1', 't2', 't3', 't4']
+        self.assertEqual(
+            get_min(values, dates),
+            (5, 't2')
+        )
+
+    def test_csv_file_content(self):
+        """Test if the content of the CSV file is correct."""
+
+        test_data = {
+            "time": ["2025-07-08T01:00", "2025-07-08T02:00"],
+            "temperature_2m": [22.5, 23.1],
+            "wind_speed_10m": [5.5, 6.0],
+            "soil_temperature_0cm": [18.2, 18.4]
+        }
+
+        with tempfile.NamedTemporaryFile(mode='r+', delete=False, newline='') as tmpfile:
+            test_filename = tmpfile.name
+            
+            write_csv(test_data, test_filename)
+
+        try:
+            with open(test_filename, mode='r', newline='') as f:
+                reader = csv.reader(f)
+                rows = list(reader)
+
+                expected_rows = [
+                    ["Time", "Temperature (°C)", "Wind Speed (km/h)", "Soil Temperature (°C)"],
+                    ["2025-07-08T01:00", "22.5", "5.5", "18.2"],
+                    ["2025-07-08T02:00", "23.1", "6.0", "18.4"]
+                ]
+
+                self.assertEqual(rows, expected_rows)
+
+        finally:
+            os.remove(test_filename)
+
+    def test_plot_graph_runs(self):
+        """
+        Test that plot_graph runs without throwing an exception.
+        This doesn't check the actual plot visually.
+        """
+        dates = ["2025-07-08", "2025-07-09", "2025-07-10"]
+        values = [22.5, 23.1, 21.9]
+        title = "Test Temperature Plot"
+        ylabel = "Temperature (°C)"
+
+        try:
+            plot_graph(dates, values, title, ylabel, show=False)
+        except Exception as e:
+            self.fail(f"plot_graph() raised an exception: {e}")
+
 
 
 if __name__ == "__main__":

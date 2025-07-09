@@ -70,7 +70,7 @@ def get_min(values, dates):
     return min_val, dates[index]
 
 
-def plot_graph(dates, values, title, ylabel):
+def plot_graph(dates, values, title, ylabel, show=True):
     """
     - Plot the graph between date range and temprature,
       wind speed, or soil temperature
