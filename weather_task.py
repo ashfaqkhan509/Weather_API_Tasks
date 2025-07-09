@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 def fetch_weather_data(lat, lon, start, end):
     """
-    - Fetch weather data from api within spcefied
+    Fetch weather data from api within spcefied
     date range and for specific latitude and logitude
     """
     url = (

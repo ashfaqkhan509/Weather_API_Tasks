@@ -1,3 +1,20 @@
+"""
+Weather Data Analysis using Open-Meteo API"
+
+This script fetches weather data from the Open-Meteo API using latitude, longitude, start date,
+and end date provided via command-line arguments. It supports various analysis tasks such as:
+- Calculating max, min, average temperatures, wind speeds, and soil temperatures
+- Showing the dates on which max/min values occurred
+- Plotting weather trends over time
+- Exporting the data to a CSV file
+
+Usage:
+    python3 main.py --latitude <lat> --longitude <lon> --start YYYY-MM-DD --end YYYY-MM-DD --task <task_name>
+
+Example:
+    python3 main.py --latitude 52.52 --longitude 13.41 --start 2025-07-01 --end 2025-07-07 --task max_temp
+"""
+
 from arg_parser import ArgParser
 from weather_task import (
     fetch_weather_data,
@@ -9,6 +26,10 @@ from weather_task import (
 
 
 def main():
+    """
+    Main function that parses arguments, fetches weather data,
+    and performs the selected analysis task.
+    """
     args = ArgParser().parse()
 
     data = fetch_weather_data(
@@ -21,7 +42,7 @@ def main():
     time = daily["time"]
 
     task_map = {
-        'max_temp': lambda: print("Max Temperature:",max(daily["temperature_2m"])),
+        'max_temp': lambda: print("Max Temperature:", max(daily["temperature_2m"])),
         'min_temp': lambda: print("Min Temperature:", min(daily["temperature_2m"])),
         'avg_temp': lambda: print("Average Temperature:", get_avg(daily["temperature_2m"])),
 
@@ -43,16 +64,22 @@ def main():
         'date_min_soil': lambda: print_date("Min Soil Temp", *get_min(daily["soil_temperature_0cm"], time), "°C"),
 
         'plot_temp': lambda: plot_graph(
-            time, daily["temperature_2m"],
-            "Average Temperature Over Time", "Temperature (°C)"
+            time,
+            daily["temperature_2m"],
+            "Average Temperature Over Time",
+            "Temperature (°C)"
         ),
         'plot_wind': lambda: plot_graph(
-            time, daily["wind_speed_10m"],
-            "Average Wind Speed Over Time", "Wind Speed (km/h)"
+            time,
+            daily["wind_speed_10m"],
+            "Average Wind Speed Over Time",
+            "Wind Speed (km/h)"
         ),
         'plot_soil': lambda: plot_graph(
-            time, daily["soil_temperature_0cm"],
-            "Average Soil Temperature Over Time", "Soil Temp (°C)"
+            time,
+            daily["soil_temperature_0cm"],
+            "Average Soil Temperature Over Time",
+            "Soil Temp (°C)"
         ),
 
         'export_csv': lambda: (write_csv(daily), print("CSV exported as 'weather_output.csv'"))
@@ -66,6 +93,7 @@ def main():
         task()
     else:
         print(f"Invalid task: {args.task}")
+        print("Valid tasks are:\n" + " ".join(task_map.keys()))
 
 
 if __name__ == "__main__":
