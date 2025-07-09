@@ -7,7 +7,9 @@ from weather_task import (
     plot_graph,
     fetch_weather_data
 )
-import tempfile, os, csv
+import tempfile
+import os
+import csv
 
 
 class TestWeatherTasks(unittest.TestCase):
@@ -36,7 +38,6 @@ class TestWeatherTasks(unittest.TestCase):
         self.assertIn("hourly", data)
         self.assertIn("time", data["hourly"])
         self.assertIn("temperature_2m", data["hourly"])
-
 
     def test_fetch_data_failure(self):
         """
@@ -200,7 +201,7 @@ class TestWeatherTasks(unittest.TestCase):
         self.assertEqual(
             get_max(values, dates),
             (20, 't2')
-        ) 
+        )
 
     def test_get_min_with_duplicates(self):
         """Test get_min when multiple values are the same minimum"""
@@ -223,7 +224,6 @@ class TestWeatherTasks(unittest.TestCase):
 
         with tempfile.NamedTemporaryFile(mode='r+', delete=False, newline='') as tmpfile:
             test_filename = tmpfile.name
-            
             write_csv(test_data, test_filename)
 
         try:
@@ -256,7 +256,6 @@ class TestWeatherTasks(unittest.TestCase):
             plot_graph(dates, values, title, ylabel, show=False)
         except Exception as e:
             self.fail(f"plot_graph() raised an exception: {e}")
-
 
 
 if __name__ == "__main__":
