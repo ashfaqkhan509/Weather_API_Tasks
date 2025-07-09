@@ -44,7 +44,7 @@ class TestWeatherTasks(unittest.TestCase):
             get_avg(self.data['wind_speed']),
             12.76
         )
-    
+
     def test_get_avg_soil_temp(self):
         """
         Test to get average of soil temprature

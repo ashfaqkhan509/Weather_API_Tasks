@@ -1,5 +1,6 @@
 import argparse
 
+
 class ArgParser:
     def __init__(self):
         self.parser = argparse.ArgumentParser(
@@ -30,10 +31,9 @@ class ArgParser:
             help='End date in YYYY-MM-DD format'
         )
         self.parser.add_argument(
-            '--task', 
-            type=str, 
+            '--task',
+            type=str,
             required=True,
-            
             help='Task to perform'
         )
 

@@ -20,7 +20,7 @@ def fetch_weather_data(lat, lon, start, end):
 
 def write_csv(data, filename="weather_output.csv"):
     """
-    we store the data that are fetch from api 
+    we store the data that are fetch from api
     """
     with open(filename, mode='w', newline='') as f:
         writer = csv.writer(f)
