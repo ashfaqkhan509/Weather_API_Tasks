@@ -1,6 +1,6 @@
 import requests
 import csv
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plot
 
 
 def fetch_weather_data(lat, lon, start, end):
@@ -75,13 +75,13 @@ def plot_graph(dates, values, title, ylabel, show=True):
     - Plot the graph between date range and temprature,
       wind speed, or soil temperature
     """
-    plt.figure(figsize=(10, 5))
-    plt.plot(dates, values, marker='o')
-    plt.title(title)
-    plt.xlabel("Date")
-    plt.ylabel(ylabel)
-    plt.xticks(rotation=45)
-    plt.grid(True)
-    plt.tight_layout()
+    plot.figure(figsize=(10, 5))
+    plot.plot(dates, values, marker='o')
+    plot.title(title)
+    plot.xlabel("Date")
+    plot.ylabel(ylabel)
+    plot.xticks(rotation=45)
+    plot.grid(True)
+    plot.tight_layout()
     if show:
-        plt.show()
+        plot.show()
