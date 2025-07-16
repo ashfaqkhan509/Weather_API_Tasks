@@ -17,7 +17,7 @@ class ArgParser:
             type=float,
             required=True,
             help='Longitude of the location'
-            )
+        )
         self.parser.add_argument(
             '--start',
             type=str,
@@ -34,16 +34,6 @@ class ArgParser:
             '--task',
             type=str,
             required=True,
-            choices=[
-                'max_temp', 'min_temp', 'avg_temp',
-                'max_wind', 'min_wind', 'avg_wind',
-                'max_soil', 'min_soil', 'avg_soil',
-                'date_max_temp', 'date_min_temp',
-                'date_max_wind', 'date_min_wind',
-                'date_max_soil', 'date_min_soil',
-                'plot_temp', 'plot_wind', 'plot_soil',
-                'export_csv'
-            ],
             help='Task to perform'
         )
 
